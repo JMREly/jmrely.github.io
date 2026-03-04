@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Garden Timer: Focus & Grow</title>
+  <meta name="description" content="A focus timer that grows a cherry blossom garden with every session. Persistent. Beautiful. Native iOS." />
+  <meta name="theme-color" content="#120820" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #120820;
+      --bg-card:     #1C1030;
+      --bg-card-alt: #160D28;
+      --pink:        #E8829A;
+      --pink-light:  #F4A0C0;
+      --pink-pale:   #FFD6E8;
+      --pink-deep:   #C4607A;
+      --text-1:      #FFD6E8;
+      --text-2:      rgba(255, 214, 232, 0.6);
+      --text-3:      rgba(255, 214, 232, 0.35);
+      --border:      rgba(232, 130, 154, 0.15);
+      --border-soft: rgba(232, 130, 154, 0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text-1);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 40px;
+      border-bottom: 1px solid var(--border-soft);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .nav-name {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-1);
+      letter-spacing: -0.01em;
+    }
+
+    .nav-link {
+      font-size: 14px;
+      color: var(--text-2);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-link:hover { color: var(--pink-light); }
+
+    /* ── WRAPPER ── */
+    .page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 80px 0 72px;
+      text-align: center;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .hero-icon {
+      font-size: 48px;
+      margin-bottom: 28px;
+      display: block;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--pink);
+      background: rgba(232, 130, 154, 0.1);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 300;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      color: var(--pink-pale);
+      margin-bottom: 16px;
+    }
+
+    .hero-title strong {
+      font-weight: 600;
+      color: var(--pink-light);
+    }
+
+    .hero-sub {
+      font-size: 17px;
+      font-weight: 300;
+      color: var(--text-2);
+      max-width: 440px;
+      margin: 0 auto 40px;
+      line-height: 1.65;
+    }
+
+    /* App Store button */
+    .appstore-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--pink-light);
+      color: #120820;
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      transition: all 0.2s ease;
+    }
+
+    .appstore-btn:hover {
+      background: var(--pink-pale);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 32px rgba(196, 96, 122, 0.35);
+    }
+
+    .appstore-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+    .appstore-btn-text { text-align: left; }
+    .appstore-btn-text small {
+      display: block;
+      font-size: 11px;
+      font-weight: 400;
+      opacity: 0.65;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 1px;
+    }
+
+    .hero-meta {
+      margin-top: 18px;
+      font-size: 13px;
+      color: var(--text-3);
+    }
+
+    /* ── FEATURE STRIP ── */
+    .strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .strip-item {
+      padding: 32px 28px;
+      border-right: 1px solid var(--border-soft);
+    }
+
+    .strip-item:last-child { border-right: none; }
+
+    .strip-icon { font-size: 22px; margin-bottom: 10px; display: block; }
+
+    .strip-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-1);
+      margin-bottom: 4px;
+    }
+
+    .strip-body {
+      font-size: 13px;
+      color: var(--text-2);
+      font-weight: 300;
+      line-height: 1.5;
+    }
+
+    /* ── SECTIONS ── */
+    .section {
+      padding: 64px 0;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(22px, 3vw, 30px);
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      color: var(--pink-pale);
+      margin-bottom: 14px;
+      line-height: 1.2;
+    }
+
+    .section-body {
+      font-size: 15px;
+      color: var(--text-2);
+      font-weight: 300;
+      line-height: 1.7;
+      max-width: 520px;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 40px;
+    }
+
+    .step {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px;
+    }
+
+    .step-num {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: 14px;
+    }
+
+    .step-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-1);
+      margin-bottom: 8px;
+    }
+
+    .step-body {
+      font-size: 13px;
+      color: var(--text-2);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    /* ── STAGES ── */
+    .stages-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 40px;
+    }
+
+    .stage-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      text-align: center;
+    }
+
+    .stage-item.peak {
+      border-color: rgba(232, 130, 154, 0.3);
+      background: var(--bg-card-alt);
+    }
+
+    .stage-emoji { font-size: 28px; margin-bottom: 8px; display: block; }
+    .stage-num { font-size: 11px; color: var(--pink); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 3px; }
+    .stage-name { font-size: 12px; color: var(--text-2); font-weight: 300; }
+
+    .stages-more {
+      grid-column: span 4;
+      text-align: center;
+      padding: 16px;
+      font-size: 13px;
+      color: var(--text-3);
+    }
+
+    .stages-more a {
+      color: var(--pink);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    /* ── COMPARISON ── */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 40px;
+    }
+
+    .compare-card {
+      border-radius: 16px;
+      padding: 28px 24px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+    }
+
+    .compare-card.ours { border-color: rgba(232, 130, 154, 0.3); }
+
+    .compare-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .compare-app { font-size: 15px; font-weight: 500; color: var(--text-1); }
+
+    .compare-tag {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      padding: 3px 9px;
+      border-radius: 100px;
+    }
+
+    .compare-tag.us   { background: rgba(232,130,154,0.15); color: var(--pink-light); border: 1px solid var(--border); }
+    .compare-tag.them { background: rgba(255,255,255,0.04); color: var(--text-3); border: 1px solid rgba(255,255,255,0.07); }
+
+    .compare-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+
+    .compare-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--text-2);
+      font-weight: 300;
+      line-height: 1.5;
+    }
+
+    .ci { flex-shrink: 0; font-size: 14px; margin-top: 1px; }
+    .ci.yes { color: var(--pink-light); }
+    .ci.no  { color: var(--text-3); }
+
+    /* ── PRICING ── */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 40px;
+    }
+
+    .pricing-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 22px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .pricing-card.featured { border-color: rgba(232, 130, 154, 0.35); }
+
+    .best-value {
+      position: absolute;
+      top: -11px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--pink-light);
+      color: #120820;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+
+    .pricing-tier { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); margin-bottom: 6px; }
+
+    .pricing-price {
+      font-size: 32px;
+      font-weight: 300;
+      color: var(--pink-pale);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .pricing-price span { font-size: 14px; color: var(--text-3); font-weight: 300; }
+
+    .pricing-note { font-size: 12px; color: var(--text-3); margin-bottom: 20px; }
+
+    .pricing-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 24px;
+      flex: 1;
+    }
+
+    .pricing-list li {
+      font-size: 13px;
+      color: var(--text-2);
+      font-weight: 300;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .pricing-list li::before { content: '·'; color: var(--pink); font-size: 16px; line-height: 1; flex-shrink: 0; }
+
+    .pricing-cta {
+      display: block;
+      text-align: center;
+      padding: 11px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+      letter-spacing: -0.01em;
+    }
+
+    .pricing-cta.primary { background: var(--pink-light); color: #120820; }
+    .pricing-cta.primary:hover { background: var(--pink-pale); }
+    .pricing-cta.ghost { border: 1px solid var(--border); color: var(--text-2); }
+    .pricing-cta.ghost:hover { border-color: rgba(232,130,154,0.3); color: var(--pink-pale); }
+
+    /* ── FINAL CTA ── */
+    .cta-section {
+      padding: 80px 0;
+      text-align: center;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .cta-icon { font-size: 40px; margin-bottom: 20px; display: block; }
+
+    .cta-title {
+      font-size: clamp(24px, 4vw, 38px);
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      color: var(--pink-pale);
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .cta-sub { font-size: 16px; color: var(--text-2); font-weight: 300; margin-bottom: 36px; }
+    .cta-meta { margin-top: 16px; font-size: 13px; color: var(--text-3); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 36px 40px;
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--text-2);
+      text-decoration: none;
+    }
+
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+
+    .footer-links a {
+      font-size: 13px;
+      color: var(--text-3);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--pink-light); }
+
+    .footer-copy { font-size: 12px; color: var(--text-3); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      nav, .page { padding-left: 20px; padding-right: 20px; }
+      footer { padding: 28px 20px; flex-direction: column; align-items: flex-start; }
+
+      .strip { grid-template-columns: 1fr; }
+      .strip-item { border-right: none; border-bottom: 1px solid var(--border-soft); }
+      .strip-item:last-child { border-bottom: none; }
+
+      .steps { grid-template-columns: 1fr; }
+      .stages-grid { grid-template-columns: repeat(2, 1fr); }
+      .stages-more { grid-column: span 2; }
+      .compare-grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-brand">
+      <span>🌸</span>
+      <span class="nav-name">Garden Timer</span>
+    </a>
+    <a href="gardentimer-site/support.html" class="nav-link">Support</a>
+  </nav>
+
+  <div class="page">
+
+    <!-- Hero -->
+    <section class="hero">
+      <span class="hero-icon">🌿</span>
+      <div class="hero-badge">Available on the App Store</div>
+      <h1 class="hero-title">Your garden grows<br><strong>every time you focus.</strong></h1>
+      <p class="hero-sub">A cherry blossom garden that persists across every session. Focus more. Watch it bloom.</p>
+
+      <a href="https://apps.apple.com/app/id6759589634" class="appstore-btn" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+        </svg>
+        <div class="appstore-btn-text">
+          <small>Download on the</small>
+          App Store
+        </div>
+      </a>
+
+      <p class="hero-meta">Free to download · iOS 16.0+ · No account required</p>
+    </section>
+
+    <!-- Feature strip -->
+    <div class="strip">
+      <div class="strip-item">
+        <span class="strip-icon">🌱</span>
+        <div class="strip-title">Persistent garden</div>
+        <div class="strip-body">Grows across all sessions, never resets</div>
+      </div>
+      <div class="strip-item">
+        <span class="strip-icon">⏱️</span>
+        <div class="strip-title">Two timer modes</div>
+        <div class="strip-body">Countdown or open-ended stopwatch</div>
+      </div>
+      <div class="strip-item">
+        <span class="strip-icon">🔒</span>
+        <div class="strip-title">Lock Screen support</div>
+        <div class="strip-body">Dynamic Island + Live Activity</div>
+      </div>
+    </div>
+
+    <!-- How it works -->
+    <section class="section">
+      <div class="section-label">How it works</div>
+      <h2 class="section-title">Focus. Bloom. Repeat.</h2>
+      <p class="section-body">Every focus session advances your cherry blossom garden through 12 stages. Your progress is permanent — come back tomorrow and pick up exactly where you left off.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">Step 01</div>
+          <div class="step-title">Set your session</div>
+          <p class="step-body">Choose a countdown duration — 25, 50 minutes, or custom — or switch to stopwatch mode for open-ended focus with no time pressure.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">Step 02</div>
+          <div class="step-title">Watch your garden grow</div>
+          <p class="step-body">As you focus, your garden advances through 12 stages — from bare branches to full cherry blossom bloom. Each session adds to the same persistent world.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">Step 03</div>
+          <div class="step-title">Build something lasting</div>
+          <p class="step-body">Your garden never resets. It's a permanent record of your focus — the more you work, the more beautiful it becomes.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12 Stages -->
+    <section class="section">
+      <div class="section-label">12 stages of bloom</div>
+      <h2 class="section-title">From bare branches to full blossom.</h2>
+      <p class="section-body">Each focus session advances your garden to the next stage. Twelve milestones. One persistent world that grows with your discipline.</p>
+
+      <div class="stages-grid">
+        <div class="stage-item">
+          <span class="stage-emoji">🌑</span>
+          <div class="stage-num">Stage 1</div>
+          <div class="stage-name">Bare branches</div>
+        </div>
+        <div class="stage-item">
+          <span class="stage-emoji">🌿</span>
+          <div class="stage-num">Stage 3</div>
+          <div class="stage-name">First buds</div>
+        </div>
+        <div class="stage-item peak">
+          <span class="stage-emoji">🌸</span>
+          <div class="stage-num">Stage 6</div>
+          <div class="stage-name">Blooming</div>
+        </div>
+        <div class="stage-item peak">
+          <span class="stage-emoji">🌺</span>
+          <div class="stage-num">Stage 9</div>
+          <div class="stage-name">Peak bloom</div>
+        </div>
+        <div class="stage-item peak" style="grid-column: span 2;">
+          <span class="stage-emoji">✨</span>
+          <div class="stage-num">Stage 12</div>
+          <div class="stage-name">Full bloom</div>
+        </div>
+        <div class="stage-item" style="grid-column: span 2; display:flex; align-items:center; justify-content:center; padding:16px;">
+          <span style="font-size:13px; color:var(--text-3);">And 7 more stages in between · </span>
+          <a href="https://apps.apple.com/app/id6759589634" style="font-size:13px; color:var(--pink); text-decoration:none; font-weight:500; margin-left:4px;" target="_blank" rel="noopener">Unlock them all →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparison -->
+    <section class="section">
+      <div class="section-label">Why Garden Timer</div>
+      <h2 class="section-title">Built for what Forest missed.</h2>
+      <p class="section-body">Forest users have been asking for persistent progress for years. We built exactly that — with native iOS craft that feels at home on your device.</p>
+
+      <div class="compare-grid">
+        <div class="compare-card ours">
+          <div class="compare-header">
+            <span style="font-size:18px;">🌸</span>
+            <span class="compare-app">Garden Timer</span>
+            <span class="compare-tag us">You're here</span>
+          </div>
+          <ul class="compare-list">
+            <li><span class="ci yes">✓</span> Garden persists across all sessions</li>
+            <li><span class="ci yes">✓</span> Native iOS 26 Liquid Glass design</li>
+            <li><span class="ci yes">✓</span> Countdown + stopwatch modes</li>
+            <li><span class="ci yes">✓</span> Dynamic Island Live Activity</li>
+            <li><span class="ci yes">✓</span> Free to start, no account needed</li>
+          </ul>
+        </div>
+
+        <div class="compare-card">
+          <div class="compare-header">
+            <span style="font-size:18px;">🌲</span>
+            <span class="compare-app">Forest</span>
+            <span class="compare-tag them">Competitor</span>
+          </div>
+          <ul class="compare-list">
+            <li><span class="ci no">✕</span> Garden resets after every session</li>
+            <li><span class="ci no">✕</span> Cross-platform, non-native iOS feel</li>
+            <li><span class="ci no">✕</span> Countdown only</li>
+            <li><span class="ci no">✕</span> No Dynamic Island support</li>
+            <li><span class="ci no">✕</span> Paid upfront before you try it</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="section">
+      <div class="section-label">Pricing</div>
+      <h2 class="section-title">Start free. Go deeper with Pro.</h2>
+      <p class="section-body">Core features are free forever. Garden Pro adds more scenes, removes ads, and unlocks the full 12-stage journey.</p>
+
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-tier">Free</div>
+          <div class="pricing-price">$0</div>
+          <div class="pricing-note">Forever free</div>
+          <ul class="pricing-list">
+            <li>Cherry Blossom garden</li>
+            <li>Stages 1–4</li>
+            <li>Countdown timer</li>
+            <li>Live Activity</li>
+            <li>Session history</li>
+          </ul>
+          <a href="https://apps.apple.com/app/id6759589634" class="pricing-cta ghost" target="_blank" rel="noopener">Download Free</a>
+        </div>
+
+        <div class="pricing-card featured">
+          <div class="best-value">Best value</div>
+          <div class="pricing-tier">Pro Yearly</div>
+          <div class="pricing-price">$24.99<span>/yr</span></div>
+          <div class="pricing-note">$2.08/month · 7-day free trial</div>
+          <ul class="pricing-list">
+            <li>Everything in Free</li>
+            <li>All 12 stages unlocked</li>
+            <li>All garden scenes</li>
+            <li>Stopwatch mode</li>
+            <li>Ad-free</li>
+          </ul>
+          <a href="https://apps.apple.com/app/id6759589634" class="pricing-cta primary" target="_blank" rel="noopener">Start Free Trial</a>
+        </div>
+
+        <div class="pricing-card">
+          <div class="pricing-tier">Pro Monthly</div>
+          <div class="pricing-price">$3.99<span>/mo</span></div>
+          <div class="pricing-note">3-day free trial</div>
+          <ul class="pricing-list">
+            <li>Everything in Free</li>
+            <li>All 12 stages unlocked</li>
+            <li>All garden scenes</li>
+            <li>Stopwatch mode</li>
+            <li>Ad-free</li>
+          </ul>
+          <a href="https://apps.apple.com/app/id6759589634" class="pricing-cta ghost" target="_blank" rel="noopener">Get Monthly</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="cta-section">
+      <span class="cta-icon">🌸</span>
+      <h2 class="cta-title">Your garden is waiting to bloom.</h2>
+      <p class="cta-sub">Start your first focus session today.</p>
+
+      <a href="https://apps.apple.com/app/id6759589634" class="appstore-btn" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+        </svg>
+        <div class="appstore-btn-text">
+          <small>Download on the</small>
+          App Store
+        </div>
+      </a>
+
+      <p class="cta-meta">Free · iOS 16.0+ · No account required</p>
+    </section>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <a href="/" class="footer-brand">
+      <span>🌸</span>
+      <span>Garden Timer: Focus &amp; Grow</span>
+    </a>
+    <ul class="footer-links">
+      <li><a href="https://apps.apple.com/app/id6759589634" target="_blank" rel="noopener">App Store</a></li>
+      <li><a href="gardentimer-site/support.html">Support</a></li>
+      <li><a href="gardentimer-site/privacy.html">Privacy</a></li>
+    </ul>
+    <p class="footer-copy">© 2026 Garden Timer. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
